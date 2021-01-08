@@ -35,7 +35,7 @@ import sys
 import json
 import datetime
 
-site_dir = '_site'
+site_dir = 'docs'
 
 def fread(filename):
     """Read file and close the file."""

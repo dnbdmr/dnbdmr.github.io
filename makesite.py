@@ -101,8 +101,6 @@ def read_content(filename):
     # Convert Markdown content to HTML.
     if filename.endswith(('.md', '.mkd', '.mkdn', '.mdown', '.markdown')):
         try:
-            if _test == 'ImportError':
-                raise ImportError('Error forced by test')
             import commonmark
             text = commonmark.commonmark(text)
         except ImportError as e:
@@ -178,7 +176,7 @@ def main():
         'base_path': '',
         'subtitle': 'Lorem Ipsum',
         'author': 'Admin',
-        'site_url': 'http://localhost:8000',
+        'site_url': 'https://www.dnbdmr.com',
         'current_year': datetime.datetime.now().year
     }
 
@@ -208,25 +206,14 @@ def main():
     blog_posts = make_pages('content/blog/*.md',
                             site_dir+'/blog/{{ slug }}/index.html',
                             post_layout, blog='blog', **params)
-    news_posts = make_pages('content/news/*.html',
-                            site_dir+'/news/{{ slug }}/index.html',
-                            post_layout, blog='news', **params)
 
     # Create blog list pages.
     make_list(blog_posts, site_dir+'/blog/index.html',
               list_layout, item_layout, blog='blog', title='Blog', **params)
-    make_list(news_posts, site_dir+'/news/index.html',
-              list_layout, item_layout, blog='news', title='News', **params)
 
     # Create RSS feeds.
     make_list(blog_posts, site_dir+'/blog/rss.xml',
               feed_xml, item_xml, blog='blog', title='Blog', **params)
-    make_list(news_posts, site_dir+'/news/rss.xml',
-              feed_xml, item_xml, blog='news', title='News', **params)
-
-
-# Test parameter to be set temporarily by unit tests.
-_test = None
 
 
 if __name__ == '__main__':
